@@ -1,0 +1,87 @@
+@host = http://localhost:8000
+
+### Health check
+GET {{host}}/health
+
+### Get logs
+GET {{host}}/logs/tail?limit=10
+
+### Submit log entry (Information)
+POST {{host}}/logs/submit
+Content-Type: application/json
+
+{
+  "applicationName": "LoggerService-Http-Test-File",
+  "level": "Information",
+  "message": "This is an INFORMATION log entry from an external application.",
+  "sourceContext": "ExternalApp.Service",
+  "exception": null,
+  "properties": {
+    "UserId": 123,
+    "Operation": "InfoTest"
+  }
+}
+
+### Submit log entry (Debug)
+POST {{host}}/logs/submit
+Content-Type: application/json
+
+{
+  "applicationName": "LoggerService-Http-Test-File",
+  "level": "Debug",
+  "message": "This is a DEBUG log entry from an external application.",
+  "sourceContext": "ExternalApp.Service",
+  "exception": null,
+  "properties": {
+    "UserId": 123,
+    "Operation": "DebugTest"
+  }
+}
+
+### Submit log entry (Warning)
+POST {{host}}/logs/submit
+Content-Type: application/json
+
+{
+  "applicationName": "LoggerService-Http-Test-File",
+  "level": "Warning",
+  "message": "This is a WARNING log entry from an external application.",
+  "sourceContext": "ExternalApp.Service",
+  "exception": null,
+  "properties": {
+    "UserId": 123,
+    "Operation": "WarningTest"
+  }
+}
+
+### Submit log entry (Error)
+POST {{host}}/logs/submit
+Content-Type: application/json
+
+{
+  "applicationName": "LoggerService-Http-Test-File",
+  "level": "Error",
+  "message": "This is an ERROR log entry from an external application.",
+  "sourceContext": "ExternalApp.Service",
+  "exception": "System.Exception: Simulated error for testing",
+  "properties": {
+    "UserId": 123,
+    "Operation": "ErrorTest"
+  }
+}
+
+### Submit log entry (Fatal)
+POST {{host}}/logs/submit
+Content-Type: application/json
+
+{
+  "applicationName": "LoggerService-Http-Test-File",
+  "level": "Fatal",
+  "message": "This is a FATAL log entry from an external application.",
+  "sourceContext": "ExternalApp.Service",
+  "exception": "System.Exception: Simulated fatal error for testing",
+  "properties": {
+    "UserId": 123,
+    "Operation": "FatalTest"
+  }
+}
