@@ -1,0 +1,7 @@
+@host = http://localhost:8000
+
+### Health check
+GET {{host}}/health
+
+### Get logs
+GET {{host}}/logs/tail?limit=10

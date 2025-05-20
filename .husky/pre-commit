@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+gitleaks protect --staged --no-banner
+if [ $? -ne 0 ]; then
+  echo "Hardcoded secrets detected! Commit aborted."
+  exit 1
+fi
+
+npx lint-staged

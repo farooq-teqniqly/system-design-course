@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.11"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.cs": [
+      "sh run-dotnet-commands.sh"
+    ]
+  }
+}
