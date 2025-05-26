@@ -1,4 +1,4 @@
-@Sdc.LoggingService_HostAddress = http://localhost:8080
+@Sdc.LoggingService_HostAddress = http://localhost:32786
 
 GET {{Sdc.LoggingService_HostAddress}}/weatherforecast/
 Accept: application/json
