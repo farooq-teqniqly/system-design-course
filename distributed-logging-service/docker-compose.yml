@@ -6,6 +6,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
+      - LoggingOptions__LogToFile=true
+      - LoggingOptions__LogFileMaxSizeInBytes=1024
+      - LogEntryCacheOptions__MaxSize=100
     ports:
       - "8080:8080"
     networks:
