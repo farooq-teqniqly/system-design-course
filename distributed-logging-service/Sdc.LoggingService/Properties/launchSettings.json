@@ -23,7 +23,8 @@
                 "ASPNETCORE_HTTPS_PORTS": "8081",
                 "ASPNETCORE_HTTP_PORTS": "8080",
                 "LoggingOptions__LogToFile": "true",
-                "LoggingOptions__LogFileMaxSizeInBytes": "1024"
+                "LoggingOptions__LogFileMaxSizeInBytes": "1024",
+                "LogEntryCacheOptions__MaxSize": "100"
             },
             "publishAllPorts": true,
             "useSSL": true

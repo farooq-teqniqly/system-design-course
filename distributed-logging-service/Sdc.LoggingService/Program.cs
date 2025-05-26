@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Sdc.LoggingService
 {
@@ -23,6 +24,7 @@ namespace Sdc.LoggingService
             );
 
             builder.Services.AddSingleton<Logger>();
+            builder.Services.AddSingleton<LogEntryCache>();
             builder.Services.AddHostedService<LoggingWorker>();
 
             var app = builder.Build();
@@ -37,23 +39,14 @@ namespace Sdc.LoggingService
 
             //app.UseAuthorization();
 
-            var summaries = new[]
-            {
-                "Freezing",
-                "Bracing",
-                "Chilly",
-                "Cool",
-                "Mild",
-                "Warm",
-                "Balmy",
-                "Hot",
-                "Sweltering",
-                "Scorching",
-            };
-
             app.MapGet(
-                    "/weatherforecast",
-                    async (HttpContext httpContext, Logger logger) =>
+                    "/logs",
+                    async (
+                        HttpContext httpContext,
+                        LogEntryCache logEntryCache,
+                        Logger logger,
+                        int? limit
+                    ) =>
                     {
                         await logger.Log(
                             Levels.Information,
@@ -62,25 +55,24 @@ namespace Sdc.LoggingService
 
                         var stopWatch = Stopwatch.StartNew();
 
-                        var forecast = Enumerable
-                            .Range(1, 5)
-                            .Select(index => new WeatherForecast
-                            {
-                                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                                TemperatureC = Random.Shared.Next(-20, 55),
-                                Summary = summaries[Random.Shared.Next(summaries.Length)],
-                            })
-                            .ToArray();
+                        var realLimit = limit ?? 5;
+
+                        if (realLimit is < 1 or > 100)
+                        {
+                            return Results.BadRequest("Query parameter 'limit' is out of range.");
+                        }
+
+                        var logEntries = logEntryCache.GetEntries(realLimit);
 
                         await logger.Log(
                             Levels.Information,
                             $"Executed {httpContext.Request.Path} in {stopWatch.Elapsed.TotalMilliseconds}ms."
                         );
 
-                        return forecast;
+                        return Results.Ok(logEntries);
                     }
                 )
-                .WithName("GetWeatherForecast");
+                .WithName("GetRecentLogs");
 
             app.Run();
         }

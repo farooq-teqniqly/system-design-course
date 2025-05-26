@@ -4,12 +4,15 @@ namespace Sdc.LoggingService
 {
     public sealed class Logger
     {
+        private readonly LogEntryCache _logEntryCache;
         private readonly LoggingOptions _loggingOptions;
 
-        public Logger(IOptions<LoggingOptions> loggingOptions)
+        public Logger(LogEntryCache logEntryCache, IOptions<LoggingOptions> loggingOptions)
         {
+            ArgumentNullException.ThrowIfNull(logEntryCache);
             ArgumentNullException.ThrowIfNull(loggingOptions);
 
+            _logEntryCache = logEntryCache;
             _loggingOptions = loggingOptions.Value;
         }
 
@@ -23,6 +26,8 @@ namespace Sdc.LoggingService
                 level.ShortForm,
                 message
             );
+
+            _logEntryCache.AddEntry(new LogCacheEntry(level, timestamp, message));
 
             Console.WriteLine(consoleMessage);
 
