@@ -22,7 +22,8 @@
             "environmentVariables": {
                 "ASPNETCORE_HTTPS_PORTS": "8081",
                 "ASPNETCORE_HTTP_PORTS": "8080",
-                "LoggingOptions__LogToFile": "true"
+                "LoggingOptions__LogToFile": "true",
+                "LoggingOptions__LogFileMaxSizeInBytes": "1024"
             },
             "publishAllPorts": true,
             "useSSL": true
